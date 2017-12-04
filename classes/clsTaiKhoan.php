@@ -2,56 +2,23 @@
 
 class clsTaiKhoan extends clsDataBase{
 
-	var $_MaTK;
-	var $_HoTen;
-	var $_TenDangNhap;
-	var $_MatKhau;
-	var $_Email;
-	var $_SoDienThoai;
-	var $_NgayTao;
-	var $_LanDangNhapCuoi;
-	var $_TinhTrang;
-	var $_TrangThai;
-	var $_Quyen;
+	private $_MaTK;
+	private $_HoTen;
+	private $_TenDangNhap;
+	private $_MatKhau;
+	private $_Email;
+	private $_SoDienThoai;
+	private $_NgayTao;
+	private $_LanDangNhapCuoi;
+	private $_TinhTrang;
+	private $_TrangThai;
+	private $_Quyen;
 
-
-	public static clsTaiKhoan($MaTK,$HoTen,$TenDangNhap,$MatKhau,$Email,$SoDienThoai,$NgayTao,$LanDangNhapCuoi,$TinhTrang,$TrangThai,$Quyen){
-		$this->_MaTK = $MaTK;
-		$this->_TenDangNhap = $TenDangNhap;
-		$this->_HoTen = $HoTen;
-		$this->_MatKhau = $MatKhau;
-		$this->_Email = $Email;
-		$this->_SoDienThoai = $SoDienThoai;
-		$this->_NgayTao = $NgayTao;
-		$this->_LanDangNhapCuoi = $LanDangNhapCuoi;
-		$this->_TinhTrang = $TinhTrang;
-		$this->_TrangThai = $TrangThai;
-		$this->_Quyen = $Quyen;
-	}
-
-	public static clsTaiKhoan($HoTen,$TenDangNhap,$MatKhau,$Email,$SoDienThoai,$NgayTao,$LanDangNhapCuoi,$TinhTrang,$TrangThai,$Quyen){
-		$this->_TenDangNhap = $TenDangNhap;
-		$this->_HoTen = $HoTen;
-		$this->_MatKhau = $MatKhau;
-		$this->_Email = $Email;
-		$this->_SoDienThoai = $SoDienThoai;
-		$this->_NgayTao = $NgayTao;
-		$this->_LanDangNhapCuoi = $LanDangNhapCuoi;
-		$this->_TinhTrang = $TinhTrang;
-		$this->_TrangThai = $TrangThai;
-		$this->_Quyen = $Quyen;
-	}
-
-	public static clsTaiKhoan($TenDangNhap,$MatKhau){
-		$this->_TenDangNhap = $TenDangNhap;
-		$this->_MatKhau = $MatKhau;
-	}	
-
-	public static clsTaiKhoan($MaTK){
-		$this->_MaTK = $MaTK;
-	}
-
-	public static function Them(){
+	function __construct()
+    {
+        parent::__construct();
+    }
+    public function Them(){
 		$this->Query("SELECT ten_dang_nhap FROM taikhoan WHERE ten_dang_nhap = $this->_TenDangNhap");
 		if($this->NumRows()>0){
 			//tồn tại tên đăng nhập
@@ -72,7 +39,7 @@ class clsTaiKhoan extends clsDataBase{
 		}
 	}
 
-	public static function Xoa(){
+	public function Xoa(){
 		$this->Query("UPDATE taikhoan SET trang_thai = 0 WHERE ma_tai_khoan = $this->_MaTK");
 		//Kiểm tra số dòng bị ảnh hưởng trong database
 		//Trả về true nếu tồn tại
@@ -83,8 +50,8 @@ class clsTaiKhoan extends clsDataBase{
 		}
 	}
 
-	public static function Sua(){
-		$this->Query("UPDATE taikhoan SET ho_ten = $this->_HoTen, mat_khau = $this->_MatKhau, ten_dang_nhap = $this->_TenDangNhap, email = $this->_Email, so_dien_thoai = $this->_SoDienThoai, tinh_trang = $this->TinhTrang, trang_thai = $this->_TrangThai, quyen = $this->_Quyen WHERE ma_tai_khoan = $this->_MaTK");
+	public function Sua(){
+		$this->Query("UPDATE taikhoan SET ho_ten = $this->_HoTen, mat_khau = $this->_MatKhau, ten_dang_nhap = $this->_TenDangNhap, email = $this->_Email, so_dien_thoai = $this->_SoDienThoai, tinh_trang = $this->_TinhTrang, trang_thai = $this->_TrangThai, quyen = $this->_Quyen WHERE ma_tai_khoan = $this->_MaTK");
 		//Kiểm tra số dòng bị ảnh hưởng trong database
 		//Trả về true nếu tồn tại
 		if($this->EffectRow()>0){
@@ -94,7 +61,7 @@ class clsTaiKhoan extends clsDataBase{
 		}
 	}
 
-	public static function DangNhap(){
+	public function dangNhap(){
 		$this->Query("SELECT ma_tai_khoan,ho_ten,ten_dang_nhap,mat_khau,quyen,tinh_trang FROM taikhoan WHERE ten_dang_nhap = '$this->_TenDangNhap'") AND trang_thai == 1;
 		//Kiểm tra có tồn tại tài khoản không?
 		if($this->NumRows()>0){
@@ -107,7 +74,6 @@ class clsTaiKhoan extends clsDataBase{
 					$_SESSION["ten_dang_nhap"] = $data["ten_dang_nhap"];
 					$_SESSION["quyen"] = $data["quyen"];
 					$_SESSION["ho_ten"] = $data["ho_ten"];
-
 					$MaTK = $data["ma_tai_khoan"];
 					$NgayHienTai = date();
 					//Cập nhật lần đăng nhập cuối của tài khoản
@@ -117,7 +83,6 @@ class clsTaiKhoan extends clsDataBase{
 					}else{
 						return false;
 					}
-					
 				}else{
 					//Tài khoản bị khóa
 					return "lock";
@@ -132,7 +97,7 @@ class clsTaiKhoan extends clsDataBase{
 		}
 	}
 
-	public static function DangXuat(){
+	public function dangXuat(){
 		if(isset($_SESSION["ten_dang_nhap"])&&isset($_SESSION["quyen"])&&isset($_SESSION["ho_ten"])){
 			unset($_SESSION["ten_dang_nhap"]);
 			unset($_SESSION["quyen"]);
@@ -142,7 +107,16 @@ class clsTaiKhoan extends clsDataBase{
 		return false;
 	}
 
-	public static function KhoaTaiKhoan(){
+	public  function layBangTaiKhoan(){
+		$this->Query("SELECT * FROM taikhoan");
+		if($this->NumRows()>0){
+			return $this->FetchAll();
+		}else{
+			return false;
+		}
+	}
+
+	public  function khoaTaiKhoan(){
 
 	}
 }
