@@ -1,56 +1,40 @@
 <?php
 class clsDataBase
 {
-    private  $db_host = "localhost";
-    private  $db_username = "root";
-    private  $db_password = "";
-    private  $db_name = "db_shoes_shop";
-    private  $conn = NULL;
-    private  $result = NULL;
-
-    protected function __construct()
-    {
-        self::Connect();
-    }
-
+    private static $conn = NULL;
+    private static $result = NULL;
     /*
          Hàm kết nối csdl
     */
-    protected  function Connect()
+    public static function openConnect()
     {
-        $this->conn = mysqli_connect($this->db_host,$this->db_username, $this->db_password, $this->db_name);
-        mysqli_set_charset($this->conn, "utf8");
+        self::$conn = mysqli_connect("localhost","root","","db_shoes_shop");
+        mysqli_set_charset(self::$conn, "utf8");
         if (mysqli_connect_errno()) {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
     }
 
-    protected  function Disconnect()
+    public static function closeConnect()
     {
-        if ($this->conn) {
-            mysqli_close($this->conn);
-        }
+            mysqli_close(self::$conn);
     }
 
     /*
         Hàm thưc thi câu truy vấn
     */
-    protected  function Query($sql)
+    public static function query($sql)
     {
-        if ($this->conn) {
-            $this->result = mysqli_query($this->conn, $sql);
-        } else {
-            return "Connection failed";
-        }
+        self::$result  = mysqli_query(self::$conn,$sql);
     }
 
     /*
         Đếm số bản ghi của câu truy vân SELECT
     */
-    protected  function NumRows()
+    public static function numRows()
     {
-        if ($this->result) {
-            $row = mysqli_num_rows($this->result);
+        if (self::$result) {
+            $row = mysqli_num_rows(self::$result);
         } else {
             $row = 0;
         }
@@ -61,9 +45,9 @@ class clsDataBase
         Kiểm tra số dòng bị ảnh hưởng khi thực thi câu truy vấn INSERT UPDATE DELETE
         Không tìm thấy trả về -1
     */
-    protected  function EffectRow(){
-        if($this->conn){
-            $number = mysqli_affected_rows($this->conn);
+    public static function effectRow(){
+        if(self::$conn){
+            $number = mysqli_affected_rows(self::$conn);
             return $number;
         }else{
             return "Connection failed";
@@ -74,11 +58,11 @@ class clsDataBase
         Lấy 1 dòng dữ liệu của câu truy vấn SELECT
         Không có dữ liệu trả về null
     */
-    protected  function Fetch()
+    public static function Fetch()
     {
         $data = null;
-        if ($this->result) {
-            $data = mysqli_fetch_assoc($this->result);
+        if (self::$result) {
+            $data = mysqli_fetch_assoc(self::$result);
         } else {
             $data = array();
         }
@@ -89,23 +73,16 @@ class clsDataBase
         Lấy tất cả dữ liệu của câu truy vấn
         Không có dữ liệu trả về null
     */
-    protected  function FetchAll()
+    public static function fetchAll()
     {
         $data = null;
-        if ($this->result) {
-            while ($row = mysqli_fetch_assoc($this->result)) {
+        if (self::$result) {
+            while ($row = mysqli_fetch_assoc(self::$result)) {
                 $data[] = $row;
             }
         } else {
             $data = null;
         }
         return $data;
-    }
-
-    /*
-        Ngắt kết nối csdl
-    */
-    protected  function __destruct(){
-        self::Disconnect();
     }
 }

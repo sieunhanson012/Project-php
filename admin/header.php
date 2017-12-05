@@ -1,11 +1,7 @@
-<?php 
-include_once("../classes/clsDataBase.php");
-include_once("../classes/clsTaiKhoan.php");
+<?php
+include_once "../classes/clsDataBase.php";
+include_once "../classes/clsTaiKhoan.php";
 ?>
-
-
-
-
 
 <!DOCTYPE html>
 <html>
@@ -15,7 +11,6 @@ include_once("../classes/clsTaiKhoan.php");
     <meta content="" name="description" />
     <meta content="webthemez" name="author" />
     <title>BRILLIANT Free Bootstrap Admin Template - WebThemez</title>
-    <link rel="stylesheet" href="../components/admin/assets/bootstrap-toggle-master/css/bootstrap-toggle.css">
     <!-- Bootstrap Styles-->
     <link href="../components/admin/assets/css/bootstrap.css" rel="stylesheet" />
     <!-- FontAwesome Styles-->
@@ -24,9 +19,14 @@ include_once("../classes/clsTaiKhoan.php");
     <link href="../components/admin/assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
     <!-- Custom Styles-->
     <link href="../components/admin/assets/css/custom-styles.css" rel="stylesheet" />
+    <link href="../components/admin/assets/css/animate.css" rel="stylesheet" />
     <!-- Google Fonts-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <link rel="stylesheet" href="../components/admin/assets/js/Lightweight-Chart/cssCharts.css">
+    <link rel="stylesheet" href="../components/admin/assets/css/jquery-confirm.min.css">
+    <!-- jQuery Js -->
+
+    <script src="../components/admin/assets/js/jquery-1.10.2.js"></script>
 </head>
 <body>
     <div id="wrapper">
@@ -297,7 +297,7 @@ include_once("../classes/clsTaiKhoan.php");
                             </li>
                         </ul>
                     </li>
-                    
+
                 </ul>
 
             </div>
